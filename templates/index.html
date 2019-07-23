@@ -1,0 +1,71 @@
+{% block include %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+    body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+    .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+    .fa-anchor,.fa-coffee {font-size:200px}
+    </style>
+    <script src="https://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
+    <link rel="stylesheet" href="https://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/MarkerCluster.Default.css" />
+    <script src="https://maps.api.2gis.ru/2.0/cluster_realworld.js"></script>
+
+{% endblock %}
+{% block header %}
+    <header class="w3-container w3-pink w3-center" style="padding:128px 16px">
+        <h1 class="w3-margin w3-jumbo w3-text-sand">ВЕЛОПАРКОВКИ МОСКВЫ</h1>
+    </header>
+{% endblock %}
+{% block grid1 %}
+    <div class="w3-row-padding w3-container w3-sand">
+      <div class="w3-content w3-center">
+          <p class="w3-margin w3-jumbo w3-text-pink w4-center">Карта велопарковок</p>
+          <div id="map" style="width:1000px; height:500px"></div>
+          <br><br>
+      </div>
+    </div>
+{% endblock %}
+{% block map_script %}
+     <script type="text/javascript">
+            DG.then(function() {
+
+                return DG.plugin('https://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/leaflet.markercluster-src.js');
+            }).then(function() {
+                map = DG.map('map', {
+                    center: DG.latLng(55.75, 37.78),
+                    zoom: 9
+                });
+                {% load static %}
+                /*
+                myIcon = DG.icon({
+                    iconUrl: "static/icon.png",
+                    iconSize: [40, 40]
+                });
+                */
+
+                var markers = DG.markerClusterGroup();
+                var points_str = "{{ points_info }}";
+                points_str = points_str.replace(/&quot;/g,'"').replace(/&#39;/g, '"').replace(/\n/g, '');
+
+                var points = JSON.parse(points_str);
+
+
+
+                for (var i = 0; i < points.length; i++) {
+                    var a = points[i];
+                    var marker = DG.marker([a.x, a.y]);
+                    marker.bindPopup(a.name + '<br>Адрес: ' + a.address);
+                    markers.addLayer(marker);
+                }
+
+                map.addLayer(markers);
+
+            });
+        </script>
+{% endblock %}
+

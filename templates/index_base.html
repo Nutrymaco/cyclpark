@@ -1,0 +1,41 @@
+{% extends 'index.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Карта велопарковок</title>
+        {% block includes %}{% endblock %}
+        {% block map_script %}{% endblock %}
+</head>
+<body>
+
+    <!-- Navbar -->
+    <!-- for navigation menu -->
+
+    <!-- Header -->
+    {% block header %}{% endblock %}
+
+    <!-- First Grid -->
+    {% block grid1 %}{% endblock %}
+    <!-- other blocks... -->
+
+
+    <!-- Footer -->
+
+     <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+
+
+<script>
+
+function myFunction() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else {
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+</script>
+
+</body>
+</html>
